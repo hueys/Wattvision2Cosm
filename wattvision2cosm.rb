@@ -17,13 +17,14 @@ wattvisionData = JSON.parse(open(wattvisionURL).read)
 
 # Update our Cosm datastreams
 cosm_api_key = ENV['COSM_API_KEY']
+cosm_feed_id = ENV['COSM_FEED_ID']
 
 # Update our watts datastream
 watts = Cosm::Datastream.new(:id => 'watts', :current_value => wattvisionData[1])
 
-Cosm::Client.put('/v2/feeds/75525/datastreams/watts', :headers => {"X-ApiKey" => cosm_api_key}, :body => watts.to_json)
+Cosm::Client.put("/v2/feeds/#{cosm_feed_id}/datastreams/watts", :headers => {"X-ApiKey" => cosm_api_key}, :body => watts.to_json)
 
 # Update our cost datastram
 cost = Cosm::Datastream.new(:id => 'cost', :current_value => (wattvisionData[2]/100.0))
 
-Cosm::Client.put('/v2/feeds/75525/datastreams/cost', :headers => {"X-ApiKey" => cosm_api_key}, :body => cost.to_json)
+Cosm::Client.put("/v2/feeds/#{cosm_feed_id}/datastreams/cost", :headers => {"X-ApiKey" => cosm_api_key}, :body => cost.to_json)
